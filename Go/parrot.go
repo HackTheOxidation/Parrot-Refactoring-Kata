@@ -19,30 +19,15 @@ type Parrot interface {
 	Cry() (string, error)
 }
 
-type parrotTraits struct {
-	numberOfCoconuts int
-	voltage          float64
-	nailed           bool
-}
-
-func (parrot parrotTraits) loadFactor() float64 {
-	return 9.0
-}
-
-func (parrot parrotTraits) baseSpeed() float64 {
+func baseSpeed(parrot Parrot) float64 {
 	return 12.0
 }
 
-func (parrot parrotTraits) computeBaseSpeedForVoltage(voltage float64) float64 {
-	return math.Min(24.0, voltage*parrot.baseSpeed())
-}
-
 type EuropeanParrot struct {
-	parrotTraits
 }
 
 func (parrot EuropeanParrot) Speed() (float64, error) {
-	return parrot.baseSpeed(), nil
+	return baseSpeed(parrot), nil
 }
 
 func (parrot EuropeanParrot) Cry() (string, error) {
@@ -50,11 +35,16 @@ func (parrot EuropeanParrot) Cry() (string, error) {
 }
 
 type AfricanParrot struct {
-	parrotTraits
+	numberOfCoconuts int
+}
+
+func (parrot AfricanParrot) loadFactor() float64 {
+	return 9.0
 }
 
 func (parrot AfricanParrot) Speed() (float64, error) {
-	return math.Max(0, parrot.baseSpeed()-parrot.loadFactor()*float64(parrot.numberOfCoconuts)), nil
+	coconutLoadFactor := parrot.loadFactor() * float64(parrot.numberOfCoconuts)
+	return math.Max(0, baseSpeed(parrot)-coconutLoadFactor), nil
 }
 
 func (parrot AfricanParrot) Cry() (string, error) {
@@ -62,7 +52,12 @@ func (parrot AfricanParrot) Cry() (string, error) {
 }
 
 type NorwegianBlueParrot struct {
-	parrotTraits
+	voltage float64
+	nailed  bool
+}
+
+func (parrot NorwegianBlueParrot) computeBaseSpeedForVoltage(voltage float64) float64 {
+	return math.Min(24.0, voltage*baseSpeed(parrot))
 }
 
 func (parrot NorwegianBlueParrot) Speed() (float64, error) {
@@ -82,14 +77,13 @@ func (parrot NorwegianBlueParrot) Cry() (string, error) {
 }
 
 func CreateParrot(t parrotType, numberOfCoconuts int, voltage float64, nailed bool) (Parrot, error) {
-	traits := parrotTraits{numberOfCoconuts, voltage, nailed}
 	switch t {
 	case TypeEuropean:
-		return EuropeanParrot{traits}, nil
+		return EuropeanParrot{}, nil
 	case TypeAfrican:
-		return AfricanParrot{traits}, nil
+		return AfricanParrot{numberOfCoconuts}, nil
 	case TypeNorwegianBlue:
-		return NorwegianBlueParrot{traits}, nil
+		return NorwegianBlueParrot{voltage, nailed}, nil
 	default:
 		return nil, fmt.Errorf("Unknown parrot type passed")
 	}
