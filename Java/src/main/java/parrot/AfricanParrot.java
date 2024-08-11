@@ -1,8 +1,14 @@
 package parrot;
 
-public class AfricanParrot extends Parrot {
-    public AfricanParrot(int numberOfCoconuts, double voltage, boolean isNailed) {
-        super(numberOfCoconuts, voltage, isNailed);
+public class AfricanParrot implements Parrot {
+    protected final int numberOfCoconuts;
+
+    public AfricanParrot(int numberOfCoconuts) {
+        this.numberOfCoconuts = numberOfCoconuts;
+    }
+
+    private double getLoadFactor() {
+        return 9.0;
     }
 
     @Override
