@@ -1,0 +1,5 @@
+package parrot
+
+class EuropeanParrot {
+
+}
