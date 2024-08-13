@@ -1,5 +1,5 @@
 package parrot
 
-class EuropeanParrot {
-
+class EuropeanParrot extends Parrot {
+  override def getSpeed: Double = getBaseSpeed
 }
