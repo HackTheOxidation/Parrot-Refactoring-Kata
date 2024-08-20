@@ -1,24 +1,24 @@
 #ifndef PARROT_PARROT_H
 #define PARROT_PARROT_H
 
-enum ParrotType { EUROPEAN, AFRICAN, NORWEGIAN_BLUE};
+#include <memory>
+#include <string_view>
+
+enum class ParrotType { EUROPEAN, AFRICAN, NORWEGIAN_BLUE };
 
 class Parrot {
 public:
-    Parrot(ParrotType parrotType, int numberOfCoconuts, double voltage, bool isNailed);
+  static std::unique_ptr<Parrot> create_parrot(ParrotType parrotType,
+                                               int numberOfCoconuts,
+                                               double voltage,
+                                               bool isNailed) noexcept;
 
-    double getSpeed();
-    const std::string getCry();
-private:
-    ParrotType parrotType;
-    int numberOfCoconuts;
-    double voltage;
-    bool isNailed;
+  virtual double getSpeed() const noexcept = 0;
+  virtual const std::string_view getCry() const noexcept = 0;
 
-    double getBaseSpeed(double voltage);
-    double getLoadFactor();
-    double getBaseSpeed();
+protected:
+  constexpr Parrot() {};
+  constexpr double getBaseSpeed() const noexcept { return 12.0; };
 };
 
-
-#endif //PARROT_PARROT_H
+#endif // PARROT_PARROT_H
