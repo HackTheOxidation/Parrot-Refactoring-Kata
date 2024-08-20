@@ -6,10 +6,9 @@
 
 class EuropeanParrot : public Parrot {
 public:
-  EuropeanParrot() = default;
-  double getSpeed() const noexcept override { return Parrot::getBaseSpeed(); };
-  const std::string_view getCry() const noexcept override { return "Sqoork!"; };
-  ~EuropeanParrot() = default;
+  constexpr EuropeanParrot() = default;
+  [[nodiscard]] constexpr double getSpeed() const noexcept override { return Parrot::getBaseSpeed(); };
+  [[nodiscard]] constexpr std::string_view getCry() const noexcept override { return "Sqoork!"; };
 };
 
 #endif

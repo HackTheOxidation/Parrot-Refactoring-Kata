@@ -8,14 +8,16 @@ public:
   constexpr AfricanParrot(int numberOfCoconuts)
       : numberOfCoconuts(numberOfCoconuts) {}
 
-  double getSpeed() const noexcept override {
+  [[nodiscard]] constexpr double getSpeed() const noexcept override {
     return std::max(0.0, Parrot::getBaseSpeed() -
                              getLoadFactor() * numberOfCoconuts);
   }
 
-  const std::string_view getCry() const noexcept override { return "Squaark!"; }
+  [[nodiscard]] constexpr std::string_view getCry() const noexcept override {
+    return "Squaark!";
+  }
 
-  ~AfricanParrot() = default;
+  constexpr ~AfricanParrot() = default;
 
 private:
   int numberOfCoconuts;

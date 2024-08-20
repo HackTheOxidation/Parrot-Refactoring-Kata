@@ -13,8 +13,10 @@ public:
                                                double voltage,
                                                bool isNailed) noexcept;
 
-  virtual double getSpeed() const noexcept = 0;
-  virtual const std::string_view getCry() const noexcept = 0;
+  [[nodiscard]] virtual constexpr auto getSpeed() const noexcept -> double = 0;
+  [[nodiscard]] virtual constexpr auto
+  getCry() const noexcept -> std::string_view = 0;
+  constexpr virtual ~Parrot() = default;
 
 protected:
   constexpr Parrot() {};

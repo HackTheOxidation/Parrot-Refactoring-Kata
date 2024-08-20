@@ -10,15 +10,15 @@ public:
   constexpr NorwegianBlueParrot(const double voltage, const bool isNailed)
       : voltage(voltage), isNailed(isNailed) {}
 
-  const std::string_view getCry() const noexcept override {
+  [[nodiscard]] constexpr std::string_view getCry() const noexcept override {
     return (voltage > 0) ? "Bzzzzzz" : "...";
   }
 
-  double getSpeed() const noexcept override {
+  [[nodiscard]] constexpr double getSpeed() const noexcept override {
     return (isNailed) ? 0 : getBaseSpeed(voltage);
   }
 
-  ~NorwegianBlueParrot() = default;
+  constexpr ~NorwegianBlueParrot() = default;
 
 private:
   const double voltage;
